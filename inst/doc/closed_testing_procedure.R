@@ -5,23 +5,18 @@ knitr::opts_chunk$set(collapse = TRUE, out.width="100%"
 
 ## -----------------------------------------------------------------------------
 library(CTP)
-
-data(pasi)
-three.to.first <- IntersectHypotheses(list(1:2,c(1,3),c(1,4)))
-Display(three.to.first,Type="s",arrow=TRUE)
-pasi.ctp.F1    <- AnalyseCTP(three.to.first,pasi.ch~dose,pasi)
-xsx            <- summary(three.to.first)
-
-summary(pasi.ctp.F1)
-Display(pasi.ctp.F1)
+		Pairwise <- IntersectHypotheses(list(c(1,2), c(1,3),
+		                                c(1,4), c(2,3), c(2,4), c(3,4)))
+    Set24    <- TestingSet(Pairwise,"[24]")
+    Set24
 
 ## -----------------------------------------------------------------------------
+library(CTP)
 
 data(pasi)
 three.to.first <- IntersectHypotheses(list(1:2,c(1,3),c(1,4)))
 Display(three.to.first,Type="s",arrow=TRUE)
 pasi.ctp.F1    <- AnalyseCTP(three.to.first,pasi.ch~dose,pasi)
-xsx            <- summary(three.to.first)
 
 summary(pasi.ctp.F1)
 Display(pasi.ctp.F1)
@@ -37,18 +32,19 @@ summary(pasi.ctp.F2)
 Display(pasi.ctp.F2)
 
 ## -----------------------------------------------------------------------------
+pasi$Resp <- ifelse(pasi$pasi.ch > 50,1,0)
+
+pasi.ctp_bin <-AnalyseCTP(three.to.first,Resp~dose,pasi,test.name="glm",family="binomial")
+summary(pasi.ctp_bin)
+
+## -----------------------------------------------------------------------------
 pasi.ctp.K <- AnalyseCTP(dose.steps4,pasi.ch~dose,pasi, test="kruskal")
 summary(pasi.ctp.K)
 Display(pasi.ctp.K)
 
-## -----------------------------------------------------------------------------
+## ----warning=FALSE,message=FALSE----------------------------------------------
 pasi.ctp.J1 <- AnalyseCTP(dose.steps4,pasi.ch~dose,pasi, test="jonckheere",alternative="increasing")
-pasi.ctp.J2 <- AnalyseCTP(dose.steps4,pasi.ch~dose,pasi, test="jonckheere",alternative="two.sided")
 summary(pasi.ctp.J1)
-summary(pasi.ctp.J2)
-pasi.ctp.J3 <- AnalyseCTP(dose.steps4,pasi.ch~dose,pasi, test="jonckheere")
-summary(pasi.ctp.J3)
-Display(pasi.ctp.J1)
 
 ## -----------------------------------------------------------------------------
 two.to.first<- IntersectHypotheses(list(1:2,c(1,3)))
@@ -99,28 +95,39 @@ summary(xxx)
 Display(xxx)
 
 ## -----------------------------------------------------------------------------
-	xxx <- IntersectHypotheses(list(1:2,c(1,3),c(1,4)))
-  xxx$hypothesis
-  data.frame(xxx$hypnames)
-  xxx$hypnames
-  p.val<-c(0.05,0.04,0.02,0.08,0.03,0.03,0.04)
+		Pairwise <- IntersectHypotheses(list(c(1,2), c(1,3), c(1,4), c(2,3), c(2,4), c(3,4)))
+		Display(Pairwise)
+		summary(Pairwise)
+		
+		# the vector of p-values calculated by another software
+		# (Example from Prof. John M. Lachin, The Biostatistics Center Rockville MD)
+		
+		p.val <- c(
+		  0.4374,
+		  0.6485,
+		  0.4103,
+		  0.2203,
+		  0.1302,
+		  0.6725,
+		  0.4704,
+		  0.3173,
+		  0.6762,
+		  0.7112,
+		  0.2866,
+		  0.3362,
+		  0.2871,
+		  0.4633)
 
-  Adjust_raw(xxx, p.val)
-	# the vector of p-values calculated by another software
-	# you may supply the hypothesis names as names of the vector
-	
-  result <- Adjust_raw(ctp.struc=three.to.first, p.value=p.val)
-	
-	summary(result)
-	
-	# details may be documented
-	
-	result<-Adjust_raw(ctp.struc=three.to.first, p.value=p.val
-	          ,dataset.name="mydata", factor.name="treatment"
-	          ,factor.levels=c("A","B","C","D"), model=y~treatment
-	          ,test.name="F")
-	
-	summary(result)
-	Display(result)
- 
+		result <- Adjust_raw(Pairwise, p.value=p.val)
+		
+		summary(result,digits=3)	
+				
+# details may be documented
+		
+		result <- Adjust_raw(Pairwise, p.value=p.val
+		                     ,dataset.name="my Data", factor.name="Factor"
+		                     ,factor.levels=c("A","B","C","D"), model=y~Factor
+		                     ,test.name="my Test")
+		
+		summary(result,digits=3)
 

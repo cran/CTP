@@ -3,21 +3,21 @@
 
 ctp.single.test <-function(hypo,CTPparms,...)
 {
-  
+
   FT0 <- sapply(hypo, FUN = function(x) x == as.numeric(CTPparms$fac))
   FT  <- as.logical(apply(FT0, 1., sum))
   #print(FT)
   if(oldClass(CTPparms$fac)[1] == "ordered")
     newfac <- ordered(CTPparms$fac[FT])
   else newfac <- factor(CTPparms$fac[FT])
-  # 
+  #
   if(CTPparms$test == "ctp.lgrank") re <- CTPparms$resp[FT,  ] else re <- CTPparms$resp[FT]
   psingle <- do.call(CTPparms$test, list(re, newfac,...))
   psingle
 }
 
 # Auxiliary function
-# 
+#
 # Changes contrast of a factor to 'contr.sum'
 #
 # @param x a factor
@@ -38,8 +38,8 @@ ctp.g.contr <-
   function(hypo, nlevel)
   {
     #cat("\n\n ctp.g.contr: hypo = ", hypo,"\n\n")
-    #hypo is an 
-    #nlevel is the 
+    #hypo is an
+    #nlevel is the
     diag(nlevel)[, hypo] %*% contr.sum(length(hypo))
   }
 
@@ -68,9 +68,9 @@ ctp.chm <- function(x)
 
 # Auxiliary character function
 #
-# @param x 
+# @param x
 
-ctp.ch1 <- function(x) 
+ctp.ch1 <- function(x)
 {
   paste("[", paste(x, collapse = "", sep = ""), "]", sep = "")
 }
@@ -78,10 +78,10 @@ ctp.ch1 <- function(x)
 
 # Auxiliary function
 #
-# @param i 
-# @param L 
-# @param P 
-# 
+# @param i
+# @param L
+# @param P
+#
 ctp.max <-
   function(i, L, P)
   {
@@ -98,15 +98,15 @@ ctp.max <-
 ################################################################
 
 # Auxiliary function
-# 
+#
 # checks for intersections in lists of integer vectors
 #
-# @param i 
-# @param L 
+# @param i
+# @param L
 # @export
-# 
-# 
-# 
+#
+#
+#
 ctp.check.lst.i <-
   function(i, L)
   {
@@ -124,7 +124,7 @@ ctp.check.lst.i <-
 # Auxiliary function
 #
 # deletes doubles in lists of max. 2 levels
-# 
+#
 # @param L list  of max. 2 levels
 #
 
@@ -153,7 +153,7 @@ ctp.clean.lst <-
     list(couples = couples, LL = LL)
   }
 # Auxiliary funcction
-# 
+#
 # intersection of two hypotheses
 #
 # @param lx 1st hypothesis (list)
@@ -189,14 +189,14 @@ ctp.intersect.hyp <-
 #
 #pairwise intersection of all elements of a hypothesis list
 #
-# @param L a hyplist  
+# @param L a hyplist
 #
 
 
 ctp.intersect.hyplst <-
   function(L)
   {
-    
+
     x <- matrix(1.:length(L), length(L), length(L))
     aa <- cbind(row(x)[row(x) < col(x)], col(x)[row(x) < col(x)])
     iord <- order(aa[, 1.], aa[, 2.])
@@ -233,8 +233,8 @@ ctp.intersect.hyplst <-
 #
 #compares lists of max. 2 levels
 #
-# @param lsti 
-# @param lstj 
+# @param lsti
+# @param lstj
 
 ctp.is.equal.lst <-
   function(lsti, lstj)
@@ -245,8 +245,8 @@ ctp.is.equal.lst <-
   }
 # Auxiliary function
 #
-# @param i 
-# @param L 
+# @param i
+# @param L
 
 ctp.reduce.lst.i <-
   function(i, L)
@@ -282,8 +282,8 @@ ctp.reduce.lst <-
   }
 # Auxiliary function
 #
-# @param i 
-# @param L 
+# @param i
+# @param L
 
 ctp.reducelem <-
   function(i, L)
@@ -306,7 +306,7 @@ ctp.reducelem <-
   }
 # Auxiliary function
 #
-# @param L 
+# @param L
 #
 
 ctp.sort.hyp <-
@@ -324,7 +324,7 @@ ctp.sort.hyp <-
   }
 # Auxiliary function
 #
-# @param hyplst 
+# @param hyplst
 
 ctp.unique.lst <-
   function(hyplst)
@@ -341,7 +341,7 @@ ctp.unique.lst <-
   }
 # Auxiliary function
 #
-# @param hlst 
+# @param hlst
 
 ctp.unique <-
   function(hlst)
@@ -355,3 +355,29 @@ ctp.unique <-
       doubv <- sum(sapply(lhlst, ctp.unique.lst))
     doub + doubv
   }
+# Auxiliary function
+#
+# @param struc
+
+mkContrasts <- function(struc)
+{
+  L1   <- struc
+  l1   <- length(L1)
+  l2   <- sapply(L1,length)
+  nlevel <- length(L1[[max(l1)]][[1]])
+  CC <- list()
+  k   <- 0
+  for (i in 1:l1)
+  {
+
+    for(j in 1:l2[i])
+    {
+      hyp <- L1[[i]][[j]]
+      Lhyp  <- ctp.gen.contr(as.matrix(hyp),nlevel=nlevel)
+      CC[[k+1]] <- Lhyp
+      k <- k+1
+    }
+  }
+  CC
+}
+

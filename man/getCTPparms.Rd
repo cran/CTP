@@ -4,7 +4,14 @@
 \alias{getCTPparms}
 \title{Auxiliary function}
 \usage{
-getCTPparms(ctp.struc, model, dataset, factor.name = NULL, test.name = "F")
+getCTPparms(
+  ctp.struc,
+  model,
+  dataset,
+  factor.name = NULL,
+  test.name = "F",
+  ...
+)
 }
 \arguments{
 \item{ctp.struc}{Object of class \code{ctp.str}.}
@@ -21,9 +28,12 @@ By default the first variable of the right-hand side of the model formula is use
     \item \code{"kruskal"} -Kruskal-Wallis-Test
     \item \code{"chisq"} - Chi square test
     \item \code{"prob"} - Fisher's exact test for total number of observations <200 else Chi square test
-    \item \code{"lgrank"} - Logrank-test 
+    \item \code{"lgrank"} - Logrank-test
     \item \code{"jonckheere"} - Jonckheere-Terpstra test of ordered alternatives
+    \item \code{"glm"} - generlaized linear model
 }}
+
+\item{...}{Additional arguments for the chosen test}
 }
 \value{
 A list with CTP parameters

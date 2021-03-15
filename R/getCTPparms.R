@@ -1,12 +1,12 @@
 
 #' Auxiliary function
-#' 
-#' Extracting CTP - parameters 
+#'
+#' Extracting CTP - parameters
 #'
 #' @param ctp.struc Object of class \code{ctp.str}.
 #' @param model Formula of the form response~treatment.
-#' @param dataset Dataframe. 
-#' @param factor.name 
+#' @param dataset Dataframe.
+#' @param factor.name
 #'    Character string naming the factor whose levels are compared (treatment factor).
 #'		By default the first variable of the right-hand side of the model formula is used.
 #' @param test.name
@@ -15,15 +15,18 @@
 #'			\item \code{"kruskal"} -Kruskal-Wallis-Test
 #'			\item \code{"chisq"} - Chi square test
 #'			\item \code{"prob"} - Fisher's exact test for total number of observations <200 else Chi square test
-#'			\item \code{"lgrank"} - Logrank-test 
+#'			\item \code{"lgrank"} - Logrank-test
 #'			\item \code{"jonckheere"} - Jonckheere-Terpstra test of ordered alternatives
+#'			\item \code{"glm"} - generlaized linear model
 #'		}
-
+#' @param ... Additional arguments for the chosen test		
+#'		
+#'
 #'
 #' @return A list with CTP parameters
 #'
 
-getCTPparms <- function(ctp.struc, model, dataset, factor.name = NULL, test.name = "F")
+getCTPparms <- function(ctp.struc, model, dataset, factor.name = NULL, test.name = "F",...)
 {
   hyplist       <- ctp.struc$hypothesis
 	hh.test       <- paste("ctp.", test.name, sep = "")
@@ -40,12 +43,18 @@ getCTPparms <- function(ctp.struc, model, dataset, factor.name = NULL, test.name
 	  hh.nlevel     <- length(hh.level)
 	  hh.resp       <- getResponse(model,dataset)
 
-	 if(hh.test == "ctp.F")  hh.lm.obj <- lm(formula = eval(model), data = hh.dataset)
-	   else hh.lm.obj <- NA
+	  
+	  args  <- list(...)
+	  nargs <- length(args)
+	  if(nargs > 0) test.opt <- args
+	    else test.opt <- NULL
+	  
+	 # if(hh.test == "ctp.F")  hh.lm.obj <- lm(formula = eval(model), data = hh.dataset)
+	 #   else hh.lm.obj <- NA
 
 	    Parms <- list(hyplist=hyplist,hypnames=hypnames,connections=connections
-	                  ,model=model,lm.obj=hh.lm.obj,data=hh.dataset,test=hh.test,fac=hh.fac,facname=hh.facname
-	    							,level=hh.level,nlevel=hh.nlevel,resp=hh.resp,respname=hh.respname)
+	                  ,model=model,data=hh.dataset,test=hh.test,fac=hh.fac,facname=hh.facname
+	    							,level=hh.level,nlevel=hh.nlevel,resp=hh.resp,respname=hh.respname,test.opt=test.opt)
 	    oldClass(Parms) <- "CTPparms"
 	    Parms
 }

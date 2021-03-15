@@ -1,5 +1,5 @@
 ## ----setup, include=FALSE-----------------------------------------------------
-library(knitr);library(CTP)
+library(knitr)
 knitr::opts_chunk$set(collapse = TRUE, out.width="100%"
 											 ,fig.width=12,fig.height=8,dev.args = list(pointsize=25),echo=FALSE )
 

@@ -8,7 +8,6 @@
 #' @param data Dataframe 
 #'
 #' @return Vector of response 
-#' @export
 #' 
 #' @examples 
 #' 
@@ -24,7 +23,7 @@
 #' surv <- getResponse(Surv(futime,fustat)~rx, data=ovarian)
 #' print(surv)
 #' class(surv)
-#' 
+#' @export
 
 getResponse <- function(formula, data) {
   

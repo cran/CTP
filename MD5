@@ -1,6 +1,6 @@
-b617563bac8764e3721e6f0aeae351ac *DESCRIPTION
+e4b72c27a3f7dda8f9f942f619f5ba1e *DESCRIPTION
 3d597da133c649659b47f2329a36ccd1 *NAMESPACE
-4a87c7abc64e6bf5f3a4cc3af00a2d32 *NEWS.md
+c33eb11fa3184b56a904bf0d9cd899f6 *NEWS.md
 c067b796871b5340b517742398e0f09a *R/Adjust_p.R
 c8a7b604eb6f6672d98005a9da7b1342 *R/Adjust_raw.R
 94b957e879322680a73dd1d8c0c4f4a8 *R/AnalyseCTP.R
@@ -22,10 +22,10 @@ a57c568e9cb360e30dc180935b239422 *data/glucose.RData
 2ae7a92c43827b6617e53fe4ea95c788 *data/pasi.RData
 3432fd080577fa86619d60f0340db784 *inst/doc/Flowchart.R
 41add4af3244bfadec9d5d735bf7516f *inst/doc/Flowchart.Rmd
-33dc947f6cc7ae9d56ce7e67cd836fd3 *inst/doc/Flowchart.html
+8e5dacab28c108cfce99c13703425920 *inst/doc/Flowchart.html
 07090079c71b29cd8b3c7316de583c57 *inst/doc/closed_testing_procedure.R
 797804751127731128234b1254d4b13d *inst/doc/closed_testing_procedure.Rmd
-9b6930e0ffa0caca3688aa6b0b8d50be *inst/doc/closed_testing_procedure.html
+368bb6ccc4c69e43402ee94b60ff6a5c *inst/doc/closed_testing_procedure.html
 a3838ddf622ed597a085f5b411639df9 *man/Adjust_p.Rd
 142cdc58301448e145b9647b3fa36f69 *man/Adjust_raw.Rd
 d39b9ea33dbd4a95b7d0fe940889dbe0 *man/AnalyseCTP.Rd
